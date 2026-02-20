@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_product_fields', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->references('id')->on('products');
+            $table->foreignUuid('product_id')->references('id')->on('products');
             $table->foreignId('field_id')->references('id')->on('product_fields');
             $table->string('value')->nullable();
         });
