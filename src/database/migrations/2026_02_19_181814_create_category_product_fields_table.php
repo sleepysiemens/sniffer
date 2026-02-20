@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('category_product_fields', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->references('id')->on('categories');
-            $table->foreignId('field_id')->references('id')->on('product_fields');
+            $table->foreignId('category_id')
+                ->references('id')
+                ->on('categories')
+                ->cascadeOnDelete();
+
+            $table->foreignId('field_id')
+                ->references('id')
+                ->on('product_fields')
+                ->cascadeOnDelete();
         });
     }
 
