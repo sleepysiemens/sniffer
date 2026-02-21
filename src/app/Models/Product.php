@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -36,6 +37,24 @@ class Product extends Model
             'product_product_fields',
             'product_id',
             'field_id',
-        );
+        )->withPivot('value');
+    }
+
+    public function fieldValues(): array
+    {
+        if (! $this->relationLoaded('fields')) {
+            $this->load('fields');
+        }
+
+        $result = [];
+
+        foreach ($this->fields as $field) {
+            $slug = (string) $field->slug;
+            $value = (string) $field->pivot->value;
+
+            $result[$slug] = $value;
+        }
+
+        return $result;
     }
 }
