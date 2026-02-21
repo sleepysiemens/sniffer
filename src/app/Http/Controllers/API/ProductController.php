@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
@@ -12,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Throwable;
 
-class ProductController extends Controller
+class ProductController extends AbstractAPIController
 {
     public function __construct(protected ProductService $productService) {}
 
@@ -21,18 +20,18 @@ class ProductController extends Controller
         try {
             $products = $this->productService->paginate(currPage: (int) $request->query('page'));
 
-            return response()->json(['data' => ProductResource::collection($products)]);
+            return $this->getSuccessResponse(data: ProductResource::collection($products));
         } catch (Throwable $e) {
-            return response()->json([], 500);
+            return $this->errorHandle($e->getMessage());
         }
     }
 
     public function show(string $id): JsonResponse
     {
         try {
-            return response()->json(['data' => new ProductResource($this->productService->getById($id))]);
+            return $this->getSuccessResponse(data: new ProductResource($this->productService->getById($id)));
         } catch (Throwable $e) {
-            return response()->json([], 500);
+            return $this->errorHandle($e->getMessage());
         }
     }
 
@@ -41,9 +40,13 @@ class ProductController extends Controller
         try {
             $data = $request->validated();
 
-            return response()->json(['data' => new ProductResource($this->productService->createProduct($data))]);
+            return $this->getSuccessResponse(
+                message: 'created successfully',
+                data: new ProductResource($this->productService->createProduct($data)),
+                code:  201,
+            );
         } catch (Throwable $e) {
-            return response()->json([], 500);
+            return $this->errorHandle($e->getMessage());
         }
     }
 
@@ -52,9 +55,12 @@ class ProductController extends Controller
         try {
             $data = $request->validated();
 
-            return response()->json(['data' => new ProductResource($this->productService->updateProduct($id, $data))]);
+            return $this->getSuccessResponse(
+                message: 'updated successfully',
+                data: new ProductResource($this->productService->updateProduct($id, $data)),
+            );
         } catch (Throwable $e) {
-            return response()->json([], 500);
+            return $this->errorHandle($e->getMessage());
         }
     }
 
@@ -63,9 +69,9 @@ class ProductController extends Controller
         try {
             $this->productService->deleteProduct($id);
 
-            return response()->json();
+            return $this->getSuccessResponse(message: 'deleted successfully');
         } catch (Throwable $e) {
-            return response()->json([], 500);
+            return $this->errorHandle($e->getMessage());
         }
     }
 }
