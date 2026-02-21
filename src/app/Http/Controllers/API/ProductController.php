@@ -9,18 +9,19 @@ use App\Http\Resources\ProductResource;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Throwable;
 
 class ProductController extends AbstractAPIController
 {
     public function __construct(protected ProductService $productService) {}
 
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
             $products = $this->productService->paginate(currPage: (int) $request->query('page'));
 
-            return $this->getSuccessResponse(data: ProductResource::collection($products));
+            return ProductResource::collection($products);
         } catch (Throwable $e) {
             return $this->errorHandle($e->getMessage());
         }
