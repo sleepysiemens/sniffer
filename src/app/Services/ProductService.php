@@ -28,6 +28,7 @@ class ProductService implements ProductServiceInterface
                 'price',
                 'created_at',
             ])
+            ->with('fields')
             ->orderByDesc('created_at')
             ->paginate(self::ON_PAGE_COUNT);
     }
@@ -35,7 +36,7 @@ class ProductService implements ProductServiceInterface
     /** @throws Throwable */
     public function getById(string $id): Product
     {
-        return Product::query()->findOrFail($id);
+        return Product::query()->with('fields')->findOrFail($id);
     }
 
     /** @throws Throwable */
