@@ -7,6 +7,7 @@ use App\Interfaces\ProductServiceInterface;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Throwable;
@@ -33,7 +34,7 @@ class ProductService implements ProductServiceInterface
             ->paginate(self::ON_PAGE_COUNT);
     }
 
-    /** @throws Throwable */
+    /** @throws ModelNotFoundException */
     public function getById(string $id): Product
     {
         return Product::query()->with('fields')->findOrFail($id);

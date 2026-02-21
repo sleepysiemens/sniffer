@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\CategoryService;
 use App\Services\ProductFieldService;
 use App\Services\ProductService;
 use Illuminate\Support\ServiceProvider;
@@ -23,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(ProductService::class);
         $this->app->bind(ProductFieldService::class);
+        $this->app->bind(CategoryService::class);
     }
 }

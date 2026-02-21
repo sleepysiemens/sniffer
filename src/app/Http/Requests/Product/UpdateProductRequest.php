@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Product;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\AbstractApiFormRequest;
 
-class UpdateProductRequest extends FormRequest
+class UpdateProductRequest extends AbstractApiFormRequest
 {
     public function authorize(): bool
     {

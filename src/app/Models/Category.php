@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $id
  * @property string $name
  * @property string $slug
+ * @property string $cover
  * @property bool $is_available
  */
 class Category extends Model

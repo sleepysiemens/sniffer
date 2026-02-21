@@ -21,7 +21,7 @@ class ProductController extends AbstractAPIController
         try {
             $products = $this->productService->paginate(currPage: (int) $request->query('page'));
 
-            return ProductResource::collection($products);
+            return ProductResource::collection($products)->additional(['failed' => false]);
         } catch (Throwable $e) {
             return $this->errorHandle($e->getMessage());
         }
