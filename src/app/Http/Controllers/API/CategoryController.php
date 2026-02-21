@@ -2,76 +2,67 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
+use App\Services\APICRUDService;
 use App\Services\CategoryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Throwable;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryController extends AbstractAPIController
+class CategoryController extends Controller
 {
-    public function __construct(protected CategoryService $categoryService) {}
+    public function __construct(
+        protected CategoryService $categoryService,
+        protected APICRUDService $apiCrudService,
+    ) {}
 
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
-        try {
+        return $this->apiCrudService->handleAction(function() use ($request) {
             $categories = $this->categoryService->paginate(currPage: (int) $request->query('page'));
 
             return CategoryResource::collection($categories)->additional(['failed' => false]);
-        } catch (Throwable $e) {
-            return $this->errorHandle(message: $e->getMessage());
-        }
+        });
     }
 
-    public function show(int $id): JsonResponse
+    public function show(int $id): JsonResource|JsonResponse
     {
-        try {
-            return $this->getSuccessResponse(data: new CategoryResource($this->categoryService->getById($id)));
-        } catch (Throwable $e) {
-            return $this->errorHandle($e->getMessage());
-        }
+        return $this->apiCrudService->handleAction(
+            fn() =>
+            (new CategoryResource($this->categoryService->getById($id)))
+                ->additional(['failed' => false])
+        );
     }
 
-    public function store(StoreCategoryRequest $request): JsonResponse
+    public function store(StoreCategoryRequest $request): JsonResource|JsonResponse
     {
-        try {
+        return $this->apiCrudService->handleAction(function() use ($request) {
             $data = $request->validated();
 
-            return $this->getSuccessResponse(
-                message: "created successfully",
-                data: new CategoryResource($this->categoryService->createCategory($data)),
-                code: 201
-            );
-        } catch (Throwable $e) {
-            return $this->errorHandle($e->getMessage());
-        }
+            return (new CategoryResource($this->categoryService->createCategory($data)))
+                ->additional(['failed' => false, 'message' => 'created successfully']);
+        });
     }
 
-    public function update(int $id, UpdateCategoryRequest $request): JsonResponse
+    public function update(int $id, UpdateCategoryRequest $request): JsonResource|JsonResponse
     {
-        try {
-            return $this->getSuccessResponse(
-                message: "updated successfully",
-                data: new CategoryResource($this->categoryService->updateCategory($id, $request->validated())),
-            );
-        } catch (Throwable $e) {
-            return $this->errorHandle($e->getMessage());
-        }
+        return $this->apiCrudService->handleAction(
+            fn() =>
+            (new CategoryResource($this->categoryService->updateCategory($id, $request->validated())))
+                ->additional(['failed' => false, 'message' => 'updated successfully'])
+        );
     }
 
     public function delete(int $id): JsonResponse
     {
-        try {
+        return $this->apiCrudService->handleAction(function() use ($id) {
             $this->categoryService->deleteCategory($id);
 
-            return $this->getSuccessResponse(
-                message: "deleted successfully",
-            );
-        } catch (Throwable $e) {
-            return $this->errorHandle($e->getMessage());
-        }
+            return response()->json(['failed' => false, 'message' => 'deleted successfully']);
+        });
     }
 }

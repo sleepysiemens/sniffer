@@ -3,76 +3,70 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
+use App\Services\APICRUDService;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Throwable;
 
-class ProductController extends AbstractAPIController
+class ProductController extends Controller
 {
-    public function __construct(protected ProductService $productService) {}
+    public function __construct(
+        protected ProductService $productService,
+        protected APICRUDService $apiCrudService
+    ) {}
 
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
-        try {
+        return $this->apiCrudService->handleAction(function() use ($request) {
             $products = $this->productService->paginate(currPage: (int) $request->query('page'));
 
             return ProductResource::collection($products)->additional(['failed' => false]);
-        } catch (Throwable $e) {
-            return $this->errorHandle($e->getMessage());
-        }
+        });
     }
 
-    public function show(string $id): JsonResponse
+    public function show(string $id): JsonResource|JsonResponse
     {
-        try {
-            return $this->getSuccessResponse(data: new ProductResource($this->productService->getById($id)));
-        } catch (Throwable $e) {
-            return $this->errorHandle($e->getMessage());
-        }
+        return $this->apiCrudService->handleAction(
+            fn() =>
+            (new ProductResource($this->productService->getById($id)))
+                ->additional(['failed' => false])
+        );
     }
 
-    public function store(StoreProductRequest $request): JsonResponse
+    public function store(StoreProductRequest $request): JsonResource|JsonResponse
     {
-        try {
+        return $this->apiCrudService->handleAction(function() use ($request) {
             $data = $request->validated();
 
-            return $this->getSuccessResponse(
-                message: 'created successfully',
-                data: new ProductResource($this->productService->createProduct($data)),
-                code:  201,
-            );
-        } catch (Throwable $e) {
-            return $this->errorHandle($e->getMessage());
-        }
+            return (new ProductResource($this->productService->createProduct($data)))
+                ->additional(['failed' => false, 'message' => 'created successfully']);
+        });
+
     }
 
-    public function update(string $id, UpdateProductRequest $request): JsonResponse
+    public function update(string $id, UpdateProductRequest $request): JsonResource|JsonResponse
     {
-        try {
+        return $this->apiCrudService->handleAction(function() use ($id, $request) {
             $data = $request->validated();
 
-            return $this->getSuccessResponse(
-                message: 'updated successfully',
-                data: new ProductResource($this->productService->updateProduct($id, $data)),
-            );
-        } catch (Throwable $e) {
-            return $this->errorHandle($e->getMessage());
-        }
+            return (new ProductResource($this->productService->updateProduct($id, $data)))
+                ->additional(['failed' => false, 'message' => 'updated successfully']);
+        });
     }
 
     public function delete(string $id): JsonResponse
     {
-        try {
+        return $this->apiCrudService->handleAction(function() use ($id) {
             $this->productService->deleteProduct($id);
 
-            return $this->getSuccessResponse(message: 'deleted successfully');
-        } catch (Throwable $e) {
-            return $this->errorHandle($e->getMessage());
-        }
+            return response()->json(['failed' => false, 'message' => 'deleted successfully']);
+        });
     }
 }
