@@ -49,13 +49,13 @@ class ProductController extends Controller
 
     public function update(string $id, UpdateProductRequest $request): JsonResponse
     {
-        #try {
+        try {
             $data = $request->validated();
 
             return response()->json(['data' => new ProductResource($this->productService->updateProduct($id, $data))]);
-        #} catch (Throwable $e) {
-        #    return response()->json([], 500);
-        #}
+        } catch (Throwable $e) {
+            return response()->json([], 500);
+        }
     }
 
     public function delete(string $id): JsonResponse
