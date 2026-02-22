@@ -23,7 +23,7 @@ class ProductSeeder extends Seeder
         $categoryIds = $categories->pluck('id', 'slug')->toArray();
         $fieldIds = ProductField::query()
             ->select(['id', 'slug'])
-            ->withWhereHas('categories', fn (Builder|BelongsToMany $q) => $q->whereIn('categories.id', $categoryIds))
+            ->withWhereHas('categories', fn (Builder|BelongsToMany $query) => $query->whereIn('categories.id', $categoryIds))
             ->get()
             ->pluck('id', 'slug')
             ->toArray();
@@ -34,6 +34,7 @@ class ProductSeeder extends Seeder
                     'name'        => 'Sniffer classic',
                     'category_id' => $categoryIds['decks'],
                     'price'       => '1200',
+                    'amount'      => 3,
                 ],
                 'fields' => [
                     [

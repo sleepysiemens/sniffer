@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $desc
  * @property int $category_id
  * @property int $price
+ * @property int $stock_amount
  */
 class Product extends Model
 {
@@ -23,7 +25,15 @@ class Product extends Model
         'desc',
         'category_id',
         'price',
+        'stock_amount',
     ];
+
+    #[Scope]
+    public function onlyAvailable(Builder $query): void
+    {
+        $query->where('stock_amount', '>', '0')
+            ->whereHas('category', fn (Builder $query) => $query->where('is_available', 'true'));
+    }
 
     public function category(): BelongsTo
     {

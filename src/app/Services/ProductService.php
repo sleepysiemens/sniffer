@@ -18,15 +18,17 @@ class ProductService implements ProductServiceInterface
 
     public function __construct(protected ProductFieldService $productFieldService) {}
 
-    public function paginate(int $currPage = 1): LengthAwarePaginator
+    public function paginate(int $currPage = 1, bool $onlyAvailable = false): LengthAwarePaginator
     {
         return Product::query()
+            ->when($onlyAvailable, fn (Builder $query) => $query->onlyAvailable())
             ->select([
                 'id',
                 'name',
                 'desc',
                 'category_id',
                 'price',
+                'stock_amount',
                 'created_at',
             ])
             ->with('fields')

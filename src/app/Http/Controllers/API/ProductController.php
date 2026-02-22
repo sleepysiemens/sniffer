@@ -13,7 +13,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Throwable;
 
 class ProductController extends Controller
 {
@@ -25,7 +24,10 @@ class ProductController extends Controller
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         return $this->apiCrudService->handleAction(function() use ($request) {
-            $products = $this->productService->paginate(currPage: (int) $request->query('page'));
+            $products = $this->productService->paginate(
+                currPage: (int) $request->query('page'),
+                onlyAvailable: filter_var($request->query('only_available'), FILTER_VALIDATE_BOOLEAN),
+            );
 
             return ProductResource::collection($products)->additional(['failed' => false]);
         });
