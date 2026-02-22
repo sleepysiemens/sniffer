@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\CategoryServiceInterface;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -11,9 +12,10 @@ class CategoryService implements CategoryServiceInterface
 {
     public const ON_PAGE_COUNT = 15;
 
-    public function paginate(int $currPage = 1): LengthAwarePaginator
+    public function paginate(int $currPage = 1, bool $onlyAvailable = false): LengthAwarePaginator
     {
         return Category::query()
+            ->when($onlyAvailable, fn (Builder $q) => $q->onlyAvailable())
             ->select([
                 'id',
                 'slug',

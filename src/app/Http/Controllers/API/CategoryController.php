@@ -23,7 +23,10 @@ class CategoryController extends Controller
     public function index(Request $request): AnonymousResourceCollection|JsonResponse
     {
         return $this->apiCrudService->handleAction(function() use ($request) {
-            $categories = $this->categoryService->paginate(currPage: (int) $request->query('page'));
+            $categories = $this->categoryService->paginate(
+                currPage: (int) $request->query('page'),
+                onlyAvailable: filter_var($request->query('only_available'), FILTER_VALIDATE_BOOLEAN),
+            );
 
             return CategoryResource::collection($categories)->additional(['failed' => false]);
         });

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -24,6 +26,12 @@ class Category extends Model
     protected $casts = [
         'is_available' => 'bool',
     ];
+
+    #[Scope]
+    public function onlyAvailable(Builder $query): void
+    {
+        $query->where('is_available', 'true');
+    }
 
     public function fields(): BelongsToMany
     {
