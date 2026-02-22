@@ -29,7 +29,7 @@
 </div>
 --}}
 
-<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
+<div class="offcanvas offcanvas-end">
     <div class="offcanvas-header justify-content-center">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -73,7 +73,7 @@
     </div>
 </div>
 
-<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch"
+<div class="offcanvas offcanvas-end"
      aria-labelledby="Search">
     <div class="offcanvas-header justify-content-center">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -102,15 +102,14 @@
             </a>
         </div>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-                aria-controls="offcanvasNavbar">
+        <button class="navbar-toggler" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas offcanvas-end">
 
             <div class="offcanvas-header justify-content-center">
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <button type="button" class="btn-close"></button>
             </div>
 
             <div class="offcanvas-body justify-content-between">
@@ -170,7 +169,7 @@
                 <div class="d-none d-lg-flex align-items-end">
                     <ul class="d-flex justify-content-end list-unstyled m-0">
                         <li>
-                            <a href="{{ route('welcome') }}" class="mx-3">
+                            <a href="{{ route('login') }}" class="mx-3">
                                 <i class="fa-solid fa-user text-dark fs-4"></i>
                             </a>
                         </li>
