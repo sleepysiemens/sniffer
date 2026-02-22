@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
@@ -13,6 +14,8 @@ class APICRUDService
     {
         try {
             return $callable();
+        } catch (ModelNotFoundException $e) {
+            return $this->errorHandle('Not found',code:  404);
         } catch (QueryException $e) {
             return $this->errorHandle('Ошибка при работе с БД', $e->getMessage());
         } catch (Throwable $e) {

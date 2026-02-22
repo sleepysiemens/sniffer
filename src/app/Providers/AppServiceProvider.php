@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+use App\Models\Product;
+use App\Observers\CategoryObserver;
+use App\Observers\ProductObserver;
 use App\Services\APICRUDService;
 use App\Services\CategoryService;
 use App\Services\ProductFieldService;
@@ -27,5 +31,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProductFieldService::class);
         $this->app->bind(CategoryService::class);
         $this->app->bind(APICRUDService::class);
+
+        Category::observe(CategoryObserver::class);
+        Product::observe(ProductObserver::class);
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use Throwable;
 
 class ProductService implements ProductServiceInterface
@@ -20,26 +21,42 @@ class ProductService implements ProductServiceInterface
 
     public function paginate(int $currPage = 1, bool $onlyAvailable = false): LengthAwarePaginator
     {
-        return Product::query()
-            ->when($onlyAvailable, fn (Builder $query) => $query->onlyAvailable())
-            ->select([
-                'id',
-                'name',
-                'desc',
-                'category_id',
-                'price',
-                'stock_amount',
-                'created_at',
-            ])
-            ->with('fields')
-            ->orderByDesc('created_at')
-            ->paginate(self::ON_PAGE_COUNT);
+        $params = [
+            'on_page_count'  => self::ON_PAGE_COUNT,
+            'page'           => $currPage,
+            'only_available' => $onlyAvailable
+        ];
+
+        return Cache::tags(['products_list'])->rememberForever(
+            'products:' . md5(json_encode($params)),
+            function () use ($onlyAvailable) {
+                return Product::query()
+                    ->when($onlyAvailable, fn (Builder $query) => $query->onlyAvailable())
+                    ->select([
+                        'id',
+                        'name',
+                        'desc',
+                        'category_id',
+                        'price',
+                        'stock_amount',
+                        'created_at',
+                    ])
+                    ->with('fields')
+                    ->orderByDesc('created_at')
+                    ->paginate(self::ON_PAGE_COUNT);
+            }
+        );
     }
 
     /** @throws ModelNotFoundException */
     public function getById(string $id): Product
     {
-        return Product::query()->with('fields')->findOrFail($id);
+        return Cache::tags(['product', 'product:' . $id])->rememberForever(
+            'product:' . $id,
+            function () use ($id) {
+                return Product::query()->with('fields')->findOrFail($id);
+            }
+        );
     }
 
     /** @throws Throwable */
