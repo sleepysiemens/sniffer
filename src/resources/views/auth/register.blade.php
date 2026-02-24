@@ -15,7 +15,7 @@
                         <div>
                             <x-text-input id="name"
                                           :placeholder="__('Name')"
-                                          class="block mt-1 w-full"
+                                          class="block mt-1 w-full "
                                           type="text" name="name"
                                           :value="old('name')"
                                           required
@@ -28,7 +28,7 @@
                         <div class="mt-4">
                             <x-text-input id="email"
                                           :placeholder="__('Email')"
-                                          class="block mt-1 w-full"
+                                          class="block mt-1 w-full text-lowercase"
                                           type="email"
                                           name="email"
                                           :value="old('email')"
@@ -39,7 +39,7 @@
 
                         <!-- Password -->
                         <div class="mt-4">
-                            <x-text-input id="password" class="block mt-1 w-full"
+                            <x-text-input id="password" class="block mt-1 w-full text-lowercase"
                                           :placeholder="__('Password')"
                                           type="password"
                                           name="password"
@@ -50,7 +50,7 @@
 
                         <!-- Confirm Password -->
                         <div class="mt-4">
-                            <x-text-input id="password_confirmation" class="block mt-1 w-full"
+                            <x-text-input id="password_confirmation" class="block mt-1 w-full text-lowercase"
                                           :placeholder="__('Confirm password')"
                                           type="password"
                                           name="password_confirmation" required autocomplete="new-password" />

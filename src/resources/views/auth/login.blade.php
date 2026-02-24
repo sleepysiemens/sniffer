@@ -14,7 +14,7 @@
                         <!-- Email Address -->
                         <div class="mt-4">
                             <x-text-input id="email"
-                                          class="block mt-1 w-full"
+                                          class="block mt-1 w-full text-lowercase"
                                           type="email" name="email"
                                           :value="old('email')"
                                           :placeholder="__('Email')"
@@ -26,7 +26,7 @@
 
                         <!-- Password -->
                         <div class="mt-4">
-                            <x-text-input id="password" class="block mt-1 w-full"
+                            <x-text-input id="password" class="block mt-1 w-full text-lowercase"
                                           type="password"
                                           name="password"
                                           :placeholder="__('Password')"

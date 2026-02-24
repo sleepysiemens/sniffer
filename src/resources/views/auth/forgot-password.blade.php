@@ -20,7 +20,7 @@
                         <div>
                             <x-text-input id="email"
                                           :placeholder="__('Email')"
-                                          class="block mt-1 w-full"
+                                          class="block mt-1 w-full text-lowercase"
                                           type="email"
                                           name="email"
                                           :value="old('email')"

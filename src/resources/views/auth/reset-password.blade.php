@@ -33,7 +33,7 @@
                         <div class="mt-4">
                             <x-text-input id="password"
                                           :placeholder="__('Password')"
-                                          class="block mt-1 w-full"
+                                          class="block mt-1 w-full text-lowercase"
                                           type="password"
                                           name="password"
                                           required
@@ -45,7 +45,7 @@
                         <div class="mt-4">
                             <x-text-input id="password_confirmation"
                                           :placeholder="__('Confirm Password')"
-                                          class="block mt-1 w-full"
+                                          class="block mt-1 w-full text-lowercase"
                                           type="password"
                                           name="password_confirmation"
                                           required
