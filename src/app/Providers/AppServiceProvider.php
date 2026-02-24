@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Product;
+use App\Observers\CartItemObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\ProductObserver;
 use App\Services\APICRUDService;
@@ -40,5 +42,6 @@ class AppServiceProvider extends ServiceProvider
         // Observers
         Category::observe(CategoryObserver::class);
         Product::observe(ProductObserver::class);
+        CartItem::observe(CartItemObserver::class);
     }
 }

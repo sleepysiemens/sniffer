@@ -5,6 +5,7 @@ namespace App\Services\Cart;
 use App\Exceptions\StockLimitException;
 use App\Http\Resources\CartResource;
 use App\Models\Cart;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -12,7 +13,11 @@ class DataBaseCartService  extends AbstractCartService implements CartServiceInt
 {
     public function getCart(): CartResource
     {
-        return new CartResource($this->getOrCreateCart());
+        return Cache::tags(['carts'])->remember(
+            'cart:user_' . auth()->user()->id,
+            360,
+            fn() =>new CartResource($this->getOrCreateCart()),
+        );
     }
 
     /** @throws StockLimitException|Throwable */

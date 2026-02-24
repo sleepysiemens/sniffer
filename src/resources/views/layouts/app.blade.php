@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
@@ -20,7 +19,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
+<body x-data>
 
 {{--
 <div class="preloader-wrapper">
@@ -29,47 +28,16 @@
 </div>
 --}}
 
-<div class="offcanvas offcanvas-end">
+<div class="offcanvas offcanvas-end"
+     :class="{'show showing': $store.cart.open, 'hiding': ! $store.cart.open }">
     <div class="offcanvas-header justify-content-center">
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button"
+                class="btn-close"
+                @click.prevent="$store.cart.hide()"
+                aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <div class="order-md-last">
-            <h4 class="d-flex justify-content-between align-items-center mb-4">
-                <span class="text-primary">Your cart</span>
-                <span class="badge bg-primary rounded-circle pt-2">3</span>
-            </h4>
-
-            <ul class="list-group mb-4">
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0">Grey Hoodie</h6>
-                        <small class="text-body-secondary">Brief description</small>
-                    </div>
-                    <span class="text-body-secondary">$120</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0">Graphic T-Shirt</h6>
-                        <small class="text-body-secondary">Brief description</small>
-                    </div>
-                    <span class="text-body-secondary">$80</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0">Black T-Shirt</h6>
-                        <small class="text-body-secondary">Brief description</small>
-                    </div>
-                    <span class="text-body-secondary">$50</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <span class="fw-bold">Total (USD)</span>
-                    <strong>$250</strong>
-                </li>
-            </ul>
-
-            <button class="w-100 btn btn-dark" type="submit">Continue to checkout</button>
-        </div>
+        <x-cart-list/>
     </div>
 </div>
 
@@ -180,12 +148,7 @@
                         </li>
 
                         <li class="">
-                            <a href="{{ route('welcome') }}" class="mx-3">
-                                <i class="fa-solid fa-cart-shopping fs-4"></i>
-                                <span class="position-absolute translate-middle badge rounded-circle bg-primary">
-                                    03
-                                </span>
-                            </a>
+                            <x-cart-btn/>
                         </li>
 
                         <li>
