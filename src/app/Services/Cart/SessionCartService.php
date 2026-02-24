@@ -13,7 +13,7 @@ class SessionCartService extends AbstractCartService implements CartServiceInter
     public function getCart(): CartResource
     {
         $cart = (object) [
-            'items' => Session::get(self::SESSION_KEY, []),
+            'items' => collect(Session::get(self::SESSION_KEY, [])),
         ];
 
         return new CartResource($cart);
