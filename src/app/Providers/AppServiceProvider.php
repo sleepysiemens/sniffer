@@ -7,6 +7,8 @@ use App\Models\Product;
 use App\Observers\CategoryObserver;
 use App\Observers\ProductObserver;
 use App\Services\APICRUDService;
+use App\Services\Cart\DataBaseCartService;
+use App\Services\Cart\SessionCartService;
 use App\Services\CategoryService;
 use App\Services\ProductFieldService;
 use App\Services\ProductService;
@@ -31,7 +33,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProductFieldService::class);
         $this->app->bind(CategoryService::class);
         $this->app->bind(APICRUDService::class);
+        // Cart
+        $this->app->bind(DataBaseCartService::class);
+        $this->app->bind(SessionCartService::class);
 
+        // Observers
         Category::observe(CategoryObserver::class);
         Product::observe(ProductObserver::class);
     }
