@@ -5,6 +5,8 @@ namespace App\Services\Cart;
 use App\Exceptions\StockLimitException;
 use App\Http\Resources\CartResource;
 use App\Models\Cart;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -93,6 +95,9 @@ class DataBaseCartService  extends AbstractCartService implements CartServiceInt
         DB::transaction(function () {
             $cart = $this->getOrCreateCart();
             $cart->items()->delete();
+
+            #todo Event
+            Cache::tags(['carts'])->forget('cart:user_' . auth()->user()->id);
         });
     }
 
@@ -101,6 +106,9 @@ class DataBaseCartService  extends AbstractCartService implements CartServiceInt
         return auth()->user()
             ->cart()
             ->firstOrCreate()
-            ->load('items.product');
+            ->load([
+                'items' => fn (Builder|HasMany $q) => $q->orderBy('created_at'),
+                'items.product',
+            ]);
     }
 }

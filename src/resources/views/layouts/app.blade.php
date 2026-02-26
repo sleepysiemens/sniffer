@@ -90,38 +90,15 @@
                         <a class="nav-link mx-2 dropdown-toggle" role="button" id="pages" data-bs-toggle="dropdown"
                            aria-expanded="false">Pages</a>
                         <ul class="dropdown-menu" aria-labelledby="pages">
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">About Us<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Shop<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Single Product<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Cart<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Wishlist<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Checkout<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Blog<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Single Post<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Contact<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">FAQs<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Account<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Thankyou<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Error 404<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
-                            <li><a href="{{ route('welcome') }}" class="dropdown-item">Styles<span
-                                        class="badge bg-secondary-subtle text-dark ms-2">PRO</span></a></li>
+                            <li><a href="{{ route('welcome') }}" class="dropdown-item">
+                                    About Us
+                                    <span class="badge bg-secondary-subtle text-dark ms-2">PRO</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('welcome') }}" class="nav-link mx-2">Shop</a>
+                        <a href="{{ route('products.index') }}" class="nav-link mx-2">Shop</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('welcome') }}" class="nav-link mx-2">T-Shirts</a>

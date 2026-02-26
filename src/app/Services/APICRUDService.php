@@ -13,9 +13,13 @@ class APICRUDService
     public function handleAction(callable $callable): mixed
     {
         try {
+            if (! $callable()) {
+                return response()->json([], 204);
+            }
+
             return $callable();
         } catch (ModelNotFoundException $e) {
-            return $this->errorHandle('Not found',code:  404);
+            return $this->errorHandle('Not found', code:  404);
         } catch (QueryException $e) {
             return $this->errorHandle('Ошибка при работе с БД', $e->getMessage());
         } catch (Throwable $e) {

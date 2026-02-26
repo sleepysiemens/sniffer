@@ -1,7 +1,4 @@
 <div x-data="cartList">
-    <template x-if="loading">
-        <p class="text-center py-3">{{ __('Loading...') }}</p>
-    </template>
 
     <div class="order-md-last">
         <h4 class="d-flex justify-content-between align-items-center mb-4">
@@ -16,12 +13,23 @@
                         <h6 class="my-0" x-text="item.name"></h6>
                         {{--<small class="text-body-secondary" x-text="item.desc"></small>--}}
                     </div>
-                    <span class="text-body-secondary" x-text="item.price + ' ₽'"></span>
+
+                    <div>
+                        <a href="" @click.prevent="cartItemDecrement(item.product_id)">
+                            <i class="fa-solid fa-minus"></i>
+                        </a>
+                        <a href="" @click.prevent="cartItemIncrement(item.product_id)">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                    </div>
+
+                    <span class="text-body-secondary" x-text="item.quantity + ' x ' + item.price + ' ₽'"></span>
+
                 </li>
             </template>
 
             <template x-if="!loading && items.length === 0">
-                <li class="list-group-item text-center">Корзина пуста</li>
+                <li class="list-group-item text-center">{{ __('Cart is empty.') }}</li>
             </template>
 
             <li class="list-group-item d-flex justify-content-between">
@@ -30,6 +38,8 @@
             </li>
         </ul>
 
-        <x-primary-button class="w-100" type="button">Continue to checkout</x-primary-button>
+        <x-primary-button class="w-100" type="button">{{ __('Continue to checkout') }}</x-primary-button>
+
+        <a href="" @click.prevent="clear">{{ __('Empty cart') }}</a>
     </div>
 </div>

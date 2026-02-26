@@ -17,21 +17,21 @@ class CartController extends Controller
         return $this->apiCrudService->handleAction(fn() => $this->cartService->getCart()->additional(['failed' => false]));
     }
 
-    public function clearCart(): JsonResponse
+    public function clearCart(): JsonResponse|null
     {
         return $this->apiCrudService->handleAction(fn() => $this->cartService->clearCart());
     }
-    public function incrementItem(string $productId): JsonResponse
+    public function incrementItem(string $productId): JsonResponse|null
     {
         return $this->apiCrudService->handleAction(fn() => $this->cartService->incrementItem($productId));
     }
 
-    public function decrementItem(string $productId): JsonResponse
+    public function decrementItem(string $productId): JsonResponse|null
     {
         return $this->apiCrudService->handleAction(fn() => $this->cartService->decrementItem($productId));
     }
 
-    public function deleteItem(string $productId): JsonResponse
+    public function deleteItem(string $productId): JsonResponse|null
     {
         return $this->apiCrudService->handleAction(fn() => $this->cartService->removeItem($productId));
     }
