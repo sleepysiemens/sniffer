@@ -13,7 +13,6 @@
                     <div class="col-md-6 col-lg-3 my-4">
                         <x-product-item/>
                     </div>
-
                 </template>
             </div>
             <x-pagination-links/>

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>UniClub - Free eCommerce T-Shirt Store HTML Website Template</title>
+    <title>{{ env('APP_NAME') }}</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,7 +62,11 @@
     </div>
 </div>
 
-<nav class="main-menu d-flex navbar fixed-top navbar-expand-lg py-4 ">
+<nav class="main-menu d-flex navbar fixed-top navbar-expand-lg py-4"
+     style="transition: .3s"
+     x-data="{ scrolled: false }"
+     x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 100)"
+     :class="{ 'bg-light': scrolled }">
     <div class="container">
         <div class="main-logo">
             <a href="{{ route('welcome') }}">
@@ -84,7 +88,9 @@
 
                 <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 ps-lg-5 mb-0">
                     <li class="nav-item">
-                        <a href="{{ route('welcome') }}" class="nav-link mx-2 active">Home</a>
+                        <a href="{{ route('welcome') }}"@class(['nav-link mx-2', 'active' => request()->routeIs('welcome')])>
+                            {{ __('Home') }}
+                        </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link mx-2 dropdown-toggle" role="button" id="pages" data-bs-toggle="dropdown"
@@ -98,7 +104,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('products.index') }}" class="nav-link mx-2">Shop</a>
+                        <a href="{{ route('products.index') }}" @class(['nav-link mx-2', 'active' => request()->routeIs('products.*')])>{{ __('Shop') }}</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('welcome') }}" class="nav-link mx-2">T-Shirts</a>

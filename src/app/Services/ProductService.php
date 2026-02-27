@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Throwable;
 
@@ -30,22 +31,32 @@ class ProductService implements ProductServiceInterface
         return Cache::tags(['products_list'])->rememberForever(
             'products:' . md5(json_encode($params)),
             function () use ($onlyAvailable) {
-                return Product::query()
-                    ->when($onlyAvailable, fn (Builder $query) => $query->onlyAvailable())
-                    ->select([
-                        'id',
-                        'name',
-                        'desc',
-                        'category_id',
-                        'price',
-                        'stock_amount',
-                        'created_at',
-                    ])
-                    ->with('fields')
+                return $this->getQuery($onlyAvailable)
                     ->orderByDesc('created_at')
                     ->paginate(self::ON_PAGE_COUNT);
             }
         );
+    }
+
+    public function getLatest(bool $onlyAvailable = false, int $limit = 8): Collection
+    {
+        return $this->getQuery($onlyAvailable)->orderByDesc('created_at')->limit($limit)->get();
+    }
+
+    public function getQuery(bool $onlyAvailable = false): Builder
+    {
+        return Product::query()
+            ->when($onlyAvailable, fn (Builder $query) => $query->onlyAvailable())
+            ->select([
+                'id',
+                'name',
+                'desc',
+                'category_id',
+                'price',
+                'stock_amount',
+                'created_at',
+            ])
+            ->with('fields');
     }
 
     /** @throws ModelNotFoundException */

@@ -1,4 +1,10 @@
 <div class="product-item">
+    {{--<div class="z-1 position-absolute rounded-3 m-3 px-3 border border-dark-subtle">
+        New
+    </div>
+    <div class="z-1 position-absolute rounded-3 m-3 px-3 border border-dark-subtle">
+        Sale
+    </div>--}}
     <div class="image-holder" style="width: 100%; height: 100%;">
         <img src="{{ asset('images/item1.jpg') }}" alt="Books" class="product-image img-fluid">
     </div>

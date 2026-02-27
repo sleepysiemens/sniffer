@@ -444,15 +444,18 @@ a {
 
 /* nav bar style  */
 .navbar-nav .nav-link.active,
-.navbar-nav .nav-link.show {
-  color: var(--bs-navbar-active-color);
+.navbar-nav .nav-link.show, .nav-link:hover {
+    color: var(--light-grey-color);
+    background-color: var(--accent-color);
 }
 
 .nav-link {
-  color: #000;
-  font-size: 0.875rem;
-  font-weight: 700;
-  text-transform: uppercase;
+    color: #000;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: .5em;
+    transition: .3s;
 }
 
 

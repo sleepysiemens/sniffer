@@ -33,6 +33,17 @@ class ProductController extends Controller
         });
     }
 
+    public function getLatest(Request $request): AnonymousResourceCollection|JsonResponse
+    {
+        return $this->apiCrudService->handleAction(function() use ($request) {
+            $products = $this->productService->getLatest(
+                onlyAvailable: filter_var($request->query('only_available'), FILTER_VALIDATE_BOOLEAN),
+            );
+
+            return ProductResource::collection($products)->additional(['failed' => false]);
+        });
+    }
+
     public function show(string $id): JsonResource|JsonResponse
     {
         return $this->apiCrudService->handleAction(
