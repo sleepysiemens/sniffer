@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Models\Cart;
-use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,10 +12,15 @@ class CartResource extends JsonResource
     /** @return array<string, mixed> */
     public function toArray(Request $request): array
     {
+        $items = CartItemResource::collection($this->items);
+
         return [
-            'items'          => CartItemResource::collection($this->items),
-            'total_quantity' => $this->items->sum('quantity'),
-            'total_price'    => $this->items->sum(fn (CartItem $item) => $item->price_snapshot * $item->quantity),
+            'items'          => $items,
+            'total_quantity' => $items->sum('quantity'),
+            'total_price'    => $items->sum(function (CartItemResource $item) {
+                return $item['price_snapshot'] * $item['quantity'];
+                #return $item->price_snapshot * $item->quantity;
+            }),
         ];
     }
 }

@@ -13,7 +13,7 @@ class SessionCartService extends AbstractCartService implements CartServiceInter
     public function getCart(): CartResource
     {
         $cart = (object) [
-            'items' => collect(Session::get(self::SESSION_KEY, [])),
+            'items' => array_values(Session::get(self::SESSION_KEY, [])),
         ];
 
         return new CartResource($cart);
@@ -35,7 +35,8 @@ class SessionCartService extends AbstractCartService implements CartServiceInter
         if (! $item) {
 
             $item = [
-                'product_id'     => $productId,
+                'product_id'     => $product->id,
+                'product_name'   => $product->name,
                 'quantity'       => 1,
                 'price_snapshot' => $product->price,
             ];
