@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class DataBaseCartService  extends AbstractCartService implements CartServiceInterface
+class DataBaseCartService extends AbstractCartService implements CartServiceInterface
 {
     public function getCart(): CartResource
     {
