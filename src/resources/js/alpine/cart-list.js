@@ -36,7 +36,6 @@ export default function cartList() {
                 const data = await window.request(`/ajax/cart`, {
                     method: 'DELETE'
                 })
-                console.log(data)
 
                 window.dispatchEvent(new Event('cart-updated'))
             } catch (e) {
