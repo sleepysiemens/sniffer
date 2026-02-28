@@ -19,7 +19,6 @@ class CartResource extends JsonResource
             'total_quantity' => $items->sum('quantity'),
             'total_price'    => $items->sum(function (CartItemResource $item) {
                 return $item['price_snapshot'] * $item['quantity'];
-                #return $item->price_snapshot * $item->quantity;
             }),
         ];
     }

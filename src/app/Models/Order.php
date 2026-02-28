@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Collection;
 
 /**
  * @property string $id
@@ -19,9 +20,32 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $delivered_at
+ * @property Collection $items
  */
 class Order extends Model
 {
+    public const STATUSES = [
+        'created',
+        'canceled',
+        'ready for delivery',
+        'in delivery',
+        'delivered',
+        'received',
+    ];
+
+    public const DELIVERY_TYPES = [
+        'pickup',
+        'CDEK',
+        'Post',
+    ];
+
+    public const PAYMENT_TYPES = [
+        'cash',
+        'card',
+    ];
+
+    protected $with = ['items.product'];
+
     protected $fillable = [
         'user_id',
         'status',
