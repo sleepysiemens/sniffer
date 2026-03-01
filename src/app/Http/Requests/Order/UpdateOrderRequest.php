@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Order;
 
-use App\Models\Order;
+use App\Enums\DeliveryType;
+use App\Enums\OrderStatus;
+use App\Enums\PaymentType;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateOrderRequest extends FormRequest
 {
@@ -17,10 +19,10 @@ class UpdateOrderRequest extends FormRequest
     {
         return [
             'user_id'       => ['int', 'exists:user,id'],
-            'status'        => ['string', Rule::in(Order::STATUSES)],
-            'delivery_type' => ['string', Rule::in(Order::DELIVERY_TYPES)],
+            'status'        => ['string', new Enum(OrderStatus::class)],
+            'delivery_type' => ['string', new Enum(DeliveryType::class)],
             'delivery_info' => ['string'],
-            'payment_type'  => ['string', Rule::in(Order::PAYMENT_TYPES)],
+            'payment_type'  => ['string', new Enum(PaymentType::class)],
             'is_payed'      => ['boolean'],
         ];
     }

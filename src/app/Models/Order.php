@@ -24,26 +24,6 @@ use Illuminate\Support\Collection;
  */
 class Order extends Model
 {
-    public const STATUSES = [
-        'created',
-        'canceled',
-        'ready for delivery',
-        'in delivery',
-        'delivered',
-        'received',
-    ];
-
-    public const DELIVERY_TYPES = [
-        'pickup',
-        'CDEK',
-        'Post',
-    ];
-
-    public const PAYMENT_TYPES = [
-        'cash',
-        'card',
-    ];
-
     protected $with = ['items.product'];
 
     protected $fillable = [

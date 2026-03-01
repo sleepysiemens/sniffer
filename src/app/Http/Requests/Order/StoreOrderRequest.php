@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Order;
 
+use App\Enums\DeliveryType;
+use App\Enums\OrderStatus;
+use App\Enums\PaymentType;
 use App\Http\Requests\AbstractApiFormRequest;
-use App\Models\Order;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreOrderRequest extends AbstractApiFormRequest
 {
@@ -18,10 +20,10 @@ class StoreOrderRequest extends AbstractApiFormRequest
     {
         return [
             'user_id'       => ['required', 'int', 'exists:user,id'],
-            'status'        => ['string', Rule::in(Order::STATUSES)],
-            'delivery_type' => ['string', Rule::in(Order::DELIVERY_TYPES)],
+            'status'        => ['string', new Enum(OrderStatus::class)],
+            'delivery_type' => ['string', new Enum(DeliveryType::class)],
             'delivery_info' => ['required', 'string'],
-            'payment_type'  => ['string', Rule::in(Order::PAYMENT_TYPES)],
+            'payment_type'  => ['string', new Enum(PaymentType::class)],
             'is_payed'      => ['boolean'],
             'items'         => ['array'],
         ];
