@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Enums\PaymentType;
+use App\Enums\PaymentMethod;
 use Illuminate\Support\Collection;
 
-class PaymentTypeController extends AbstractDeliveryInfoController
+class PaymentMethodController extends AbstractDeliveryInfoController
 {
     public function getData(): Collection
     {
-        return collect(PaymentType::cases())->map(fn(PaymentType $case) => [
+        return collect(PaymentMethod::cases())->map(fn(PaymentMethod $case) => [
             'value' => $case->value,
             'label' => $case->label()
         ]);

@@ -1,3 +1,4 @@
+@props(['withButton' => false])
 <div x-data="cartList">
 
     <div class="order-md-last">
@@ -38,8 +39,18 @@
             </li>
         </ul>
 
-        <x-primary-button class="w-100" type="button">{{ __('Continue to checkout') }}</x-primary-button>
+        <div class="my-4">
+            <a class="text-danger" href="" @click.prevent="clear">
+                <i class="fa-regular fa-trash-can"></i> {{ __('Empty cart') }}
+            </a>
+        </div>
 
-        <a href="" @click.prevent="clear">{{ __('Empty cart') }}</a>
+        @if($withButton)
+            <a href="{{ route('cart.index') }}" class="btn btn-dark w-100">
+                {{ __('Continue to checkout') }}
+            </a>
+        @else
+            <span x-init="fetchCart"></span>
+        @endif
     </div>
 </div>

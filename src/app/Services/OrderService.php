@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Http\Resources\OrderResource;
 use App\Interfaces\OrderServiceInterface;
 use App\Models\Order;
+use App\Services\Cart\CartService;
 use DomainException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class OrderService implements OrderServiceInterface
@@ -26,6 +26,11 @@ class OrderService implements OrderServiceInterface
         'delivered_at',
         'created_at',
     ];
+
+    public function __construct(
+        protected CartService $cartService,
+        protected ProductService $productService,
+    ) {}
 
     public function getAll(): LengthAwarePaginator
     {
@@ -62,16 +67,32 @@ class OrderService implements OrderServiceInterface
      */
     public function createOrder(array $data): Order
     {
-        $items = Arr::get($data, 'items');
+        return DB::transaction(function () use ($data) {
+            $cart = $this->cartService->getCart();
+            $cartItems = $cart->items;
+            $data['user_id'] = auth()->user()->id;
 
-        throw_if(! $items, new DomainException('Order must have at least 1 item.'));
+            throw_if(empty($cartItems), new DomainException('Order must have at least 1 item.'));
 
-        Arr::forget($data, 'items');
-        $order = Order::query()->create($data);
+            $order = Order::query()->create($data);
+            $items = [];
 
-        $order->items()->createMany($items);
+            foreach ($cartItems as $item) {
+                $items[] = [
+                    'order_id'       => $order->id,
+                    'product_id'     => $item->product_id,
+                    'quantity'       => $item->quantity,
+                    'price_snapshot' => $item->price_snapshot,
+                ];
 
-        return $order;
+                $this->productService->decrementAmount($item->product_id, $item->quantity);
+            }
+
+            $order->items()->insert($items);
+            $this->cartService->clearCart();
+
+            return $order;
+        });
     }
 
     public function updateOrder(string $id, array $data): Order

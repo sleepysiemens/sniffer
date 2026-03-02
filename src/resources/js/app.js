@@ -6,6 +6,7 @@ import cartCount from './alpine/cart-count'
 import productList from './alpine/product-list'
 import productDetails from './alpine/product-details'
 import latestProducts from "./alpine/latest-products";
+import deliveryInfo from "./alpine/delivery-info";
 
 window.Alpine = Alpine
 
@@ -83,5 +84,6 @@ Alpine.data('cartCount', cartCount)
 Alpine.data('productList', productList)
 Alpine.data('productDetails', productDetails)
 Alpine.data('latestProducts', latestProducts)
+Alpine.data('deliveryInfo', deliveryInfo)
 
 Alpine.start()

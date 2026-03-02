@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Web\CartController;
+use App\Http\Controllers\Web\OrderController;
 use App\Http\Controllers\Web\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +23,16 @@ Route::middleware('auth')->group(function () {
 Route::group(['prefix' => 'products'], function () {
     Route::get('', [ProductController::class, 'index'])->name('products.index');
     Route::get('{id}', [ProductController::class, 'show'])->name('products.show');
+});
+
+Route::group(['prefix' => 'cart', 'middleware' => 'auth'], function () {
+    Route::get('', [CartController::class, 'index'])->name('cart.index');
+});
+
+Route::group(['prefix' => 'order', 'middleware' => 'auth'], function () {
+    Route::post('', [OrderController::class, 'store'])->name('order.store');
+    Route::patch('{id}', [OrderController::class, 'update'])->name('order.update');
+    Route::get('{id}', [OrderController::class, 'show'])->name('order.show');
 });
 
 require __DIR__.'/auth.php';

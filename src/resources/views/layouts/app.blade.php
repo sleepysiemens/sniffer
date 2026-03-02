@@ -37,7 +37,7 @@
                 aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <x-cart-list/>
+        <x-cart-list :with-button="true"/>
     </div>
 </div>
 

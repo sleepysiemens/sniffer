@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Interfaces\ProductServiceInterface;
 use App\Models\Category;
 use App\Models\Product;
+use DomainException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -95,7 +96,10 @@ class ProductService implements ProductServiceInterface
     {
         $product = $this->getById($id);
 
-        $data['category_id'] = $this->normalizeCategoryId($data['category']);
+        if (Arr::has($data, 'category')) {
+            $data['category_id'] = $this->normalizeCategoryId($data['category']);
+        }
+
         $fieldData = Arr::get($data, 'fields');
         Arr::forget($data, ['category', 'fields']);
 
@@ -108,6 +112,18 @@ class ProductService implements ProductServiceInterface
         }
 
         return $product;
+    }
+
+    /**
+     * @throws Throwable|DomainException
+     */
+    public function decrementAmount(string $id, int $amount): void
+    {
+        $product = $this->getById($id);
+
+        throw_if($amount > $product->stock_amount, new DomainException('Stock amount can`t be negative.'));
+
+        $product->update(['stock_amount' => $product->stock_amount - $amount]);
     }
 
     /**

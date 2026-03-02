@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\DeliveryTypeController;
+use App\Http\Controllers\API\OrderStatusController;
+use App\Http\Controllers\API\PaymentMethodController;
 use App\Http\Controllers\API\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +25,7 @@ Route::group(['prefix' => 'categories'], function () {
     Route::patch('{id}', [CategoryController::class, 'update'])->name('api.categories.update');
     Route::delete('{id}', [CategoryController::class, 'delete'])->name('api.categories.delete');
 });
+
+Route::get('delivery_types', [DeliveryTypeController::class, 'index'])->name('api.delivery_types.index');
+Route::get('order_statuses', [OrderStatusController::class, 'index'])->name('api.order_statuses.index');
+Route::get('payment_methods', [PaymentMethodController::class, 'index'])->name('api.payment_methods.index');

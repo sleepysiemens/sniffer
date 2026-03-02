@@ -15,8 +15,5 @@ Route::group(['prefix' => 'cart'], function () {
 
 Route::group(['prefix' => 'order'], function () {
     Route::get('', [OrderController::class, 'getAll'])->name('ajax.order.get');
-    Route::post('', [OrderController::class, 'createOrder'])->name('ajax.order.store');
-
     Route::get('{id}', [OrderController::class, 'show'])->name('ajax.order.show');
-    Route::patch('{id}/update', [OrderController::class, 'update'])->name('ajax.order.update');
 });
