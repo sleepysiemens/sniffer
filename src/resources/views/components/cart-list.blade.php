@@ -2,16 +2,30 @@
 <div x-data="cartList">
 
     <div class="order-md-last">
-        <h4 class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="d-flex justify-content-between align-items-center mb-4 py-3">
             <span class="text-primary">{{ __('Your cart') }}</span>
-            <span class="badge bg-primary rounded-circle pt-2" x-text="total_quantity"></span>
+
+            <div class="d-flex">
+                <a href=""
+                   @click.prevent="fetchCart()"
+                   class="my-auto d-flex me-2 opacity-25">
+                    <i class="fa-solid fa-arrows-rotate my-auto"></i>
+                </a>
+                <span class="badge bg-primary rounded-circle pt-2" x-text="total_quantity"></span>
+            </div>
         </h4>
 
-        <ul class="list-group mb-4">
+        <div x-show="loading">
+            <x-preloader/>
+        </div>
+
+        <ul class="list-group mb-4" x-show="! loading">
             <template x-for="item in items" :key="item.product_id">
                 <li class="list-group-item d-flex justify-content-between lh-sm">
                     <div>
-                        <h6 class="my-0" x-text="item.name"></h6>
+                        <a :href="`{{ route('products.show', ':id') }}`.replace(':id', item.product_id)">
+                            <h6 class="my-0" x-text="item.name"></h6>
+                        </a>
                         {{--<small class="text-body-secondary" x-text="item.desc"></small>--}}
                     </div>
 

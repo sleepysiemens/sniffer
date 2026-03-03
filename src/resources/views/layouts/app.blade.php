@@ -163,12 +163,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('welcome') }}" class="me-4">
-                        <i class="fa-solid fa-cart-shopping  fs-4 me-2 position-relative"></i>
-                        <span class="position-absolute translate-middle badge rounded-circle bg-primary">
-                            03
-                        </span>
-                    </a>
+                    <x-cart-btn/>
                 </li>
 
                 <li>
@@ -306,7 +301,8 @@
         </div>
     </div>
 </div>
+
+@stack('scripts')
+
 </body>
-
 </html>
-

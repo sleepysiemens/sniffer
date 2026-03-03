@@ -20,6 +20,10 @@
                             </h4>
 
                             <div x-data="deliveryInfo">
+                                <div x-show="loading">
+                                    <x-preloader/>
+                                </div>
+
                                 <form x-show="! loading" method="POST" action="{{ route('order.store') }}">
                                     @csrf
                                     <div class="mb-3 pb-3 border-bottom">

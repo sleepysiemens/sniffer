@@ -19,7 +19,7 @@ class OrderResource extends JsonResource
             'status'         => $this->status,
             'delivery_type'  => $this->delivery_type,
             'delivery_info'  => $this->delivery_info,
-            'payment_type'   => $this->payment_type,
+            'payment_method'   => $this->payment_type,
             'is_payed'       => $this->is_payed,
             'created_at'     => $this->created_at,
             'delivered_at'   => $this->delivered_at,

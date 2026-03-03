@@ -1,28 +1,47 @@
+@props(['tabs' => [
+    'orders' => [
+            'icon_class' => 'fa-solid fa-box-open',
+            'name' => __('Orders'),
+        ],
+    'personal_info' => [
+            'icon_class' => 'fa-solid fa-user',
+            'name' => __('Personal info'),
+        ],
+    ]
+])
+
 @extends('layouts.app')
 
 @section('content')
-    <section>
-        <div class="container vh-100 d-flex">
-            <div class="my-auto">
-                <x-slot name="header">
-                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                        {{ __('Dashboard') }}
-                    </h2>
-                </x-slot>
-
-                <div class="py-12">
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                            <div class="p-6 text-gray-900">
-                                {{ __("You're logged in!") }}
-                            </div>
+    <section class="padding-medium">
+        <div class="container vh-100">
+            <div class="row" x-data="{ selected_tab: '{{ array_key_first($tabs) }}' }">
+                <div class="col-12 col-lg-4">
+                    <div class="card border">
+                        <div class="card-body">
+                            <ul class="list-unstyled navbar-nav menu-list">
+                                @foreach($tabs as $key => $tab)
+                                    <li class="nav-item">
+                                        <a class="nav-link py-2 px-3 fs-6 border-bottom"
+                                           :class="{ 'active': selected_tab === '{{ $key }}' }"
+                                           href=""
+                                           @click.prevent="selected_tab = '{{ $key }}'">
+                                            <i class="{{ $tab['icon_class'] }} me-2"></i>
+                                            {{ $tab['name'] }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <form method="post" action="{{ route('logout') }}">
-                    @csrf
-                    <button>logout</button>
-                </form>
+                <div class="col-12 col-lg-8">
+                    @foreach(array_keys($tabs) as $key)
+                        <div x-show="selected_tab === '{{ $key }}'">
+                            @include("profile.tabs.$key")
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </section>

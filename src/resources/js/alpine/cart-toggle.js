@@ -3,7 +3,9 @@ export default function cartToggle() {
         open: false,
 
         show() {
-            this.open = true
+            if(! window.location.pathname.includes('cart')) {
+                this.open = true
+            }
         },
 
         hide() {

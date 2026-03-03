@@ -14,7 +14,7 @@ use Throwable;
 
 class OrderService implements OrderServiceInterface
 {
-    public const ON_PAGE_COUNT = 15;
+    public const ON_PAGE_COUNT = 5;
 
     public const SELECT = [
         'id',

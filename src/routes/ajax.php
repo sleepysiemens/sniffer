@@ -15,5 +15,6 @@ Route::group(['prefix' => 'cart'], function () {
 
 Route::group(['prefix' => 'order'], function () {
     Route::get('', [OrderController::class, 'getAll'])->name('ajax.order.get');
+    Route::get('by_user', [OrderController::class, 'userOrders'])->name('ajax.order.by_user');
     Route::get('{id}', [OrderController::class, 'show'])->name('ajax.order.show');
 });
