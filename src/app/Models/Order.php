@@ -21,13 +21,13 @@ use Illuminate\Support\Collection;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $delivered_at
+ * @property int $total_quantity
+ * @property int $total_price
  * @property Collection $items
  */
 class Order extends Model
 {
     use HasUuids;
-
-    protected $with = ['items.product'];
 
     protected $fillable = [
         'user_id',
@@ -37,6 +37,8 @@ class Order extends Model
         'payment_type',
         'is_payed',
         'delivered_at',
+        'total_quantity',
+        'total_price',
     ];
 
     protected $casts = [

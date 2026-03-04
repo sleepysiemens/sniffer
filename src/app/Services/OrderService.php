@@ -3,11 +3,10 @@
 namespace App\Services;
 
 use App\Interfaces\OrderServiceInterface;
+use App\Models\CartItem;
 use App\Models\Order;
 use App\Services\Cart\CartService;
 use DomainException;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -23,6 +22,8 @@ class OrderService implements OrderServiceInterface
         'delivery_type',
         'payment_type',
         'is_payed',
+        'total_price',
+        'total_quantity',
         'delivered_at',
         'created_at',
     ];
@@ -51,6 +52,7 @@ class OrderService implements OrderServiceInterface
     {
         return Order::query()
             ->select(self::SELECT)
+            ->with('items.product.fields')
             ->findOrFail($id);
     }
 
@@ -63,6 +65,8 @@ class OrderService implements OrderServiceInterface
             $cart = $this->cartService->getCart();
             $cartItems = $cart->items;
             $data['user_id'] = auth()->user()->id;
+            $data['total_quantity'] = $cart->items->sum('quantity');
+            $data['total_price'] = $cart->items->sum(fn (CartItem $item) => $item['price_snapshot'] * $item['quantity']);
 
             throw_if(empty($cartItems), new DomainException('Order must have at least 1 item.'));
 

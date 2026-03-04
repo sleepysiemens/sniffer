@@ -12,22 +12,24 @@ class OrderResource extends JsonResource
     /** @return array<string, mixed> */
     public function toArray(Request $request): array
     {
-        $items = OrderItemResource::collection($this->items);
-
-        return [
+        $res = [
             'id'             => $this->id,
             'status'         => $this->status,
             'delivery_type'  => $this->delivery_type,
             'delivery_info'  => $this->delivery_info,
-            'payment_method'   => $this->payment_type,
+            'payment_method' => $this->payment_type,
             'is_payed'       => $this->is_payed,
-            'created_at'     => $this->created_at,
-            'delivered_at'   => $this->delivered_at,
-            'total_quantity' => $items->sum('quantity'),
-            'total_price'    => $items->sum(function (OrderItemResource $item) {
-                return $item['price_snapshot'] * $item['quantity'];
-            }),
-            'items'          => $items,
+            'created_at'     => $this->created_at->format('Y.m.d H:i:s'),
+            'delivered_at'   => $this->delivered_at?->format('Y.m.d H:i:s'),
+            'total_quantity' => $this->total_quantity,
+            'total_price'    => $this->total_price,
         ];
+
+        if ($this->relationLoaded('items')) {
+            $items = OrderItemResource::collection($this->items);
+            $res['items'] = $items;
+        }
+
+        return $res;
     }
 }

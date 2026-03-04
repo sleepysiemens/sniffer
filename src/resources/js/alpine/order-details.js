@@ -11,7 +11,6 @@ export default function orderDetails(id) {
                 const data = await window.request(`/ajax/order/${this.id}`)
 
                 this.order = data.data ?? []
-                console.log(this.order.items)
             } catch (e) {
                 console.error('Product load error:', e)
             }

@@ -14,7 +14,7 @@
                     <a class="card border" :href="`{{ route('order.show', ':id') }}`.replace(':id', order.id)">
                         <div class="card-body">
                             <div class="d-flex justify-content-between w-100">
-                                <small class="text-body-secondary" x-text="order.created_at"></small>
+                                <small class="text-body-secondary" x-text="'from ' + order.created_at"></small>
                                 <small class="text-body-secondary" x-text="order.status"></small>
                             </div>
                             <h5 class="my-3" x-text="order.id"></h5>
