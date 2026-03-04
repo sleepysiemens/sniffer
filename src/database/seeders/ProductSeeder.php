@@ -34,7 +34,7 @@ class ProductSeeder extends Seeder
                     'name'        => 'Sniffer classic',
                     'category_id' => $categoryIds['decks'],
                     'price'       => '1200',
-                    'amount'      => 3,
+                    'stock_amount'      => 3,
                 ],
                 'fields' => [
                     [
