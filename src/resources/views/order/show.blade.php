@@ -21,7 +21,10 @@
                                             </div>
                                             <div class="col-11">
                                                 <div class="d-flex justify-content-between">
-                                                    <h6 x-text="item.product.name"></h6>
+                                                    <h6>
+                                                        <a :href="`{{ route('products.show', ':id') }}`.replace(':id', item.product_id)" x-text="item.product.name"></a>
+                                                        <span class="text-lowercase" x-text="' x ' + item.quantity"></span>
+                                                    </h6>
                                                     <h6 x-text="item.price_snapshot + ' ₽'"></h6>
                                                 </div>
                                                 <template
