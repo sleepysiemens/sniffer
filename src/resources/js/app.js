@@ -34,7 +34,6 @@ window.request = async function(url, options = {}) {
     if (! response.ok) {
         let errorData = null
         try { errorData = await response.json() } catch (e) {}
-        console.error('AJAX ERROR:', errorData)
         throw errorData ?? new Error('Request failed')
     }
 
@@ -53,7 +52,7 @@ window.cartItemIncrement = async function (id) {
 
         window.dispatchEvent(new Event('cart-updated'))
     } catch (e) {
-        alert(e?.message ?? 'Ошибка увеличения количества')
+        //console.error('Increment error:', e)
     }
 }
 
@@ -65,7 +64,7 @@ window.cartItemDecrement = async function (id) {
 
         window.dispatchEvent(new Event('cart-updated'))
     } catch (e) {
-        alert(e?.message ?? 'Ошибка увеличения количества')
+        //console.error('Decrement error:', e)
     }
 }
 
@@ -76,7 +75,7 @@ window.cartItemDelete = async function (id) {
         })
         window.dispatchEvent(new Event('cart-updated'))
     } catch (e) {
-        alert('Ошибка удаления')
+        console.error('Delete error:', e)
     }
 }
 

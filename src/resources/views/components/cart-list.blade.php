@@ -30,12 +30,15 @@
                     </div>
 
                     <div>
-                        <a href="" @click.prevent="cartItemDecrement(item.product_id)">
+                        <button class="btn border-0 p-0"
+                                :disabled="item.quantity < 1"
+                                @click.prevent="cartItemDecrement(item.product_id)">
                             <i class="fa-solid fa-minus"></i>
-                        </a>
-                        <a href="" @click.prevent="cartItemIncrement(item.product_id)">
+                        </button>
+                        <button class="btn border-0 p-0"
+                                @click.prevent="cartItemIncrement(item.product_id)">
                             <i class="fa-solid fa-plus"></i>
-                        </a>
+                        </button>
                     </div>
 
                     <span class="text-body-secondary" x-text="item.quantity + ' x ' + item.price + ' ₽'"></span>

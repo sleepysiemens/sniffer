@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="padding-medium" x-data="productDetails('{{ $id }}')" x-init="init()">\
+    <section class="padding-medium" x-data="productDetails('{{ $id }}')" x-init="init()">
         <div x-show="loading">
             <x-preloader/>
         </div>
@@ -23,6 +23,7 @@
                         {{-- Cart --}}
                         <button type="button"
                                 @click.prevent="cartItemIncrement(product.id)"
+                                :disabled="product.stock_amount == 0"
                                 x-show="quantity < 1"
                                 class="btn btn-primary ms-5">
                             <i class="fa-solid fa-cart-shopping"></i>
@@ -34,13 +35,17 @@
                                 <i class="fa-solid fa-cart-shopping"></i>
                                 {{ __('In cart') }}
                             </span>
-                            <a href="" @click.prevent="cartItemDecrement(product.id)">
+                            <button class="btn border-0 p-0"
+                                    :disabled="quantity < 1"
+                                    @click.prevent="cartItemDecrement(product.id)">
                                 <i class="fa-solid fa-minus"></i>
-                            </a>
+                            </button>
                             <span class="px-2" x-text="quantity"></span>
-                            <a href="" @click.prevent="cartItemIncrement(product.id)">
+                            <button class="btn border-0 p-0"
+                                    :disabled="product.stock_amount == quantity"
+                                    @click.prevent="cartItemIncrement(product.id)">
                                 <i class="fa-solid fa-plus"></i>
-                            </a>
+                            </button>
                         </div>
                     </div>
 
