@@ -15,8 +15,6 @@ use Illuminate\Support\Collection;
  */
 class Cart extends Model
 {
-    protected $with = ['items.product'];
-
     public function items(): HasMany
     {
         return $this->hasMany(CartItem::class);

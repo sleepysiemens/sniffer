@@ -14,7 +14,7 @@
 
 @section('content')
     <section class="padding-medium">
-        <div class="container vh-100">
+        <div class="container">
             <div class="row" x-data="{ selected_tab: '{{ array_key_first($tabs) }}' }">
                 <div class="col-12 col-lg-4">
                     <div class="card border">

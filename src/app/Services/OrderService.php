@@ -44,10 +44,6 @@ class OrderService implements OrderServiceInterface
             ->select(self::SELECT)
             ->where('user_id', $userId)
             ->orderByDesc('created_at')
-            ->with([
-                'items' => fn (Builder|HasMany $q) => $q->orderBy('created_at'),
-                'items.product',
-            ])
             ->paginate(self::ON_PAGE_COUNT);
     }
 
@@ -55,10 +51,6 @@ class OrderService implements OrderServiceInterface
     {
         return Order::query()
             ->select(self::SELECT)
-            ->with([
-                'items' => fn (Builder|HasMany $q) => $q->orderBy('created_at'),
-                'items.product',
-            ])
             ->findOrFail($id);
     }
 

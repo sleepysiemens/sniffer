@@ -8,6 +8,7 @@ import productDetails from './alpine/product-details'
 import latestProducts from "./alpine/latest-products";
 import deliveryInfo from "./alpine/delivery-info";
 import orderList from "./alpine/order-list";
+import orderDetails from "./alpine/order-details";
 
 window.Alpine = Alpine
 
@@ -87,5 +88,6 @@ Alpine.data('productDetails', productDetails)
 Alpine.data('latestProducts', latestProducts)
 Alpine.data('deliveryInfo', deliveryInfo)
 Alpine.data('orderList', orderList)
+Alpine.data('orderDetails', orderDetails)
 
 Alpine.start()
